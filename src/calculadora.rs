@@ -17,15 +17,20 @@ pub struct Calculadora{
 impl Calculadora{
     pub fn calculate(&mut self) {
         self.to_operation();
-
-        if self.syntax_checking() == CalcResult::SyntaxError{
-            self.display = String::from("Syntax Error");
-            return;
-        }
-
+        self.ans = match self.operate() {
+            CalcResult::MathError =>{
+                self.display = String::from("Math Error");
+                return;
+            },
+            CalcResult::SyntaxError => {
+                self.display = String::from("Syntax Error");
+                return;
+            },
+            CalcResult::Ok(result) => result
+        };    
         
-        
-        todo!();
+
+        self.display = format!("{}", self.ans);
     }
 
     fn to_operation(&mut self){
@@ -39,35 +44,7 @@ impl Calculadora{
         }
     }
 
-    fn syntax_checking(&mut self) -> CalcResult{
-        let mut number_before = false;
-        let mut operator_before = false;
-        for (i,opt) in self.operation.iter().enumerate(){
-            match opt {
-                InputOption::number(_) => {
-                    if number_before {return CalcResult::SyntaxError;}
-                    number_before = true;
-                    operator_before = false;
-                },
-                InputOption::operator(o) => {
-                    if operator_before {return CalcResult::SyntaxError;}
-
-                    if i == self.operation.len()-1{
-                        return CalcResult::SyntaxError;
-                    }
-
-                    if !number_before && !o.contains("-"){
-                        return CalcResult::SyntaxError;
-                    }
-
-                    operator_before = true;
-                    number_before = false;
-                }
-                
-            }
-        }
-        CalcResult::Ok
-    }
+    
 
     fn operate(&mut self) -> CalcResult{
 
