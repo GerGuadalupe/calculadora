@@ -5,8 +5,8 @@ use calc_tree::CalcTree;
 
 #[derive(Clone)]
 enum InputOption{
-    number(f64),
-    operator(String)
+    Number(f64),
+    Operator(String)
 }
 
 pub struct Calculadora{
@@ -37,10 +37,10 @@ impl Calculadora{
     fn to_operation(&mut self){
         for s in self.display.split_whitespace(){
             if let Ok(n) = s.parse(){
-                self.operation.push(InputOption::number(n));
+                self.operation.push(InputOption::Number(n));
             }
             else {
-                self.operation.push(InputOption::operator(s.to_string()));
+                self.operation.push(InputOption::Operator(s.to_string()));
             }
         }
     }
@@ -53,8 +53,8 @@ impl Calculadora{
 
         for operacion in operaciones {
             match operacion {
-                InputOption::number(_) => vec_priority.push(CalcPriority::Number),
-                InputOption::operator(operator) => {
+                InputOption::Number(_) => vec_priority.push(CalcPriority::Number),
+                InputOption::Operator(operator) => {
                     match operator.as_str(){
                         "+" => vec_priority.push(CalcPriority::Min),
                         "-" => vec_priority.push(CalcPriority::Min),
@@ -66,28 +66,21 @@ impl Calculadora{
 
                 }
             }
-
-
-            let Some(arbol) = CalcTree::create_from(&operaciones, &vec_priority)
-            else {
-                return CalcResult::SyntaxError;
-            }; 
         };
 
 
-
-
-
-        
-        
-        todo!();
+        let Some(arbol) = CalcTree::create_from(&operaciones, &vec_priority)
+        else {
+            return CalcResult::SyntaxError;
+        };
+        arbol.operacion()
     }
 }
 
 impl Default for Calculadora {
     fn default() -> Self {
         Self { 
-            display: String::new(),
+            display: String::from("1000.hola mundo"),
             ans: 0.0,
             operation: Vec::new() 
         }
