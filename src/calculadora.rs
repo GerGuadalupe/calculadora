@@ -1,5 +1,8 @@
 mod calc_result;
+mod calc_tree;
 use calc_result::CalcResult;
+
+#[derive(Clone)]
 enum InputOption{
     number(f64),
     operator(String)
@@ -67,8 +70,8 @@ impl Calculadora{
     }
 
     fn operate(&mut self) -> CalcResult{
-        
 
+        
         todo!();
     }
 }
