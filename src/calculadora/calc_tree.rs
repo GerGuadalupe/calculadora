@@ -1,5 +1,3 @@
-use eframe::wgpu::naga::compact::KeepUnused::No;
-
 use super::{CalcResult, InputOption, CalcPriority};
 pub struct CalcTree{
     valor: InputOption,
