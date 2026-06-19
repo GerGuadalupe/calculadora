@@ -1,6 +1,7 @@
 mod calc_result;
 mod calc_tree;
 use calc_result::CalcResult;
+use calc_tree::CalcTree;
 
 #[derive(Clone)]
 enum InputOption{
@@ -26,7 +27,7 @@ impl Calculadora{
                 self.display = String::from("Syntax Error");
                 return;
             },
-            CalcResult::Ok(result) => result
+            CalcResult::Ok(ans) => ans
         };    
         
 
@@ -47,7 +48,37 @@ impl Calculadora{
     
 
     fn operate(&mut self) -> CalcResult{
+        let operaciones = &self.operation;
+        let mut  vec_priority: Vec<CalcPriority> = Vec::new();
 
+        for operacion in operaciones {
+            match operacion {
+                InputOption::number(_) => vec_priority.push(CalcPriority::Number),
+                InputOption::operator(operator) => {
+                    match operator.as_str(){
+                        "+" => vec_priority.push(CalcPriority::Min),
+                        "-" => vec_priority.push(CalcPriority::Min),
+                        "*" => vec_priority.push(CalcPriority::Med),
+                        "/" => vec_priority.push(CalcPriority::Med),
+                        "^" => vec_priority.push(CalcPriority::Max),
+                        _ => return CalcResult::MathError
+                    }
+
+                }
+            }
+
+
+            let Some(arbol) = CalcTree::create_from(&operaciones, &vec_priority)
+            else {
+                return CalcResult::SyntaxError;
+            }; 
+        };
+
+
+
+
+
+        
         
         todo!();
     }
@@ -59,6 +90,25 @@ impl Default for Calculadora {
             display: String::new(),
             ans: 0.0,
             operation: Vec::new() 
+        }
+    }
+}
+
+#[derive(PartialEq)]
+enum CalcPriority{
+    Min,
+    Med,
+    Max,
+    Number
+}
+
+impl CalcPriority {
+    fn elevate_priority(&mut self) -> Self{
+        match self {
+            CalcPriority::Min => CalcPriority::Med,
+            CalcPriority::Med => CalcPriority::Max,
+            CalcPriority::Max => CalcPriority::Number,
+            CalcPriority::Number => panic!("se ha intentado usar un numero como operador")
         }
     }
 }

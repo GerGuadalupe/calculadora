@@ -1,6 +1,6 @@
 #[derive(PartialEq)]
 pub enum CalcResult{
-    Ok,
+    Ok(f64),
     SyntaxError,
     MathError
 }
