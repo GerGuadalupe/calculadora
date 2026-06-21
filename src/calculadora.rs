@@ -4,7 +4,7 @@ use calc_result::CalcResult;
 use calc_tree::CalcTree;
 
 #[derive(Clone)]
-enum InputOption{
+pub enum InputOption{
     Number(f64),
     Operator(String)
 }
@@ -17,6 +17,7 @@ pub struct Calculadora{
 
 impl Calculadora{
     pub fn calculate(&mut self) {
+        self.operation.clear();
         self.to_operation();
         self.ans = match self.operate() {
             CalcResult::MathError =>{
@@ -30,7 +31,6 @@ impl Calculadora{
             CalcResult::Ok(ans) => ans
         };    
         
-
         self.display = format!("{}", self.ans);
     }
 
@@ -80,7 +80,7 @@ impl Calculadora{
 impl Default for Calculadora {
     fn default() -> Self {
         Self { 
-            display: String::from("1000.hola mundo"),
+            display: String::new(),
             ans: 0.0,
             operation: Vec::new() 
         }
@@ -103,5 +103,14 @@ impl CalcPriority {
             CalcPriority::Max => CalcPriority::Number,
             CalcPriority::Number => panic!("se ha intentado usar un numero como operador")
         }
+    }
+}
+
+
+
+
+impl Calculadora {
+    pub fn ans(&self) -> f64{
+        self.ans
     }
 }
