@@ -48,7 +48,7 @@ pub fn botones(ui: &mut egui::Ui, calc: &mut Calculadora){
 }
 
 fn set_button_size(total_size: Vec2, rows: f32, columns: f32) -> Vec2{
-    Vec2 { x: total_size.x/columns - 0.5, y: total_size.y/rows - 0.3}
+    Vec2 { x: total_size.x/columns - 6.0, y: total_size.y/rows - 2.0}
 }
 
 fn add_button(ui: &mut egui::Ui, calc: &mut Calculadora, input: &str, tipo_input: TipoInput, size: &Vec2){
@@ -59,6 +59,7 @@ fn add_button(ui: &mut egui::Ui, calc: &mut Calculadora, input: &str, tipo_input
                             //definiendo el tamaño       
         if tipo_input == TipoInput::Ecual{
             size.x *= 2.0;
+            size.x += 6.0;
             size
         } else {size},
         egui::Button::new( //definiendo propiedades del botón
