@@ -19,7 +19,7 @@ pub fn launch() -> eframe::Result {
     };
 
     eframe::run_native(
-        "Calculadora chida",
+        "Calculadora",
         native_options,
         Box::new(|_cc| Ok(Box::new(Calculadora::default()))),
     )
