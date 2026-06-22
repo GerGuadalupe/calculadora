@@ -1,7 +1,7 @@
 mod buttons;
 
 use super::calculadora::Calculadora;
-use eframe::{egui::{self, Vec2}, emath::Numeric};
+use eframe::egui::{self, Vec2};
 
 const RADIO_CORNERS: u8 = 40;
 const APLICATION_H: f32 = 800.0;
@@ -57,5 +57,54 @@ impl eframe::App for Calculadora {
                     .frame(egui::Frame::new().inner_margin(12.0))
                     .show_inside(ui, |ui| buttons::botones(ui, self));
             });
+
+            if let Some(key) = ui.input(|i| input_teclado(i, self)){
+                
+                ui.input_mut(|i| i.consume_key(egui::Modifiers::default(), key));
+            }
+
+            
     }
+}
+
+fn input_teclado(i: &egui::InputState, calc: &mut Calculadora) -> Option<egui::Key>{
+    for entrada in &i.events{
+        if let egui::Event::Key{ key, physical_key: _, pressed, repeat, modifiers } = entrada{
+            if !repeat && *pressed{
+                if modifiers.is_none(){
+                    match key {
+                        egui::Key::Num0 => calc.display.push('0'),
+                        egui::Key::Num1 => calc.display.push('1'),
+                        egui::Key::Num2 => calc.display.push('2'),
+                        egui::Key::Num3 => calc.display.push('3'),
+                        egui::Key::Num4 => calc.display.push('4'),
+                        egui::Key::Num5 => calc.display.push('5'),
+                        egui::Key::Num6 => calc.display.push('6'),
+                        egui::Key::Num7 => calc.display.push('7'),
+                        egui::Key::Num8 => calc.display.push('8'),
+                        egui::Key::Num9 => calc.display.push('9'),
+
+                        egui::Key::Enter => calc.calculate(),
+                        egui::Key::Backspace => {calc.display.pop();}
+
+                        egui::Key::Plus => calc.display.push_str(" + "),
+                        egui::Key::Minus => calc.display.push_str(" - "),
+                        egui::Key::Slash => calc.display.push_str(" / "),
+                        _ => {}
+                    }
+                } 
+                else if modifiers.shift_only() && *key == egui::Key::Num6{
+                    calc.display.push_str(" ^ ");
+                }
+            }
+        }
+
+        else if let egui::Event::Text(text) = entrada{
+            if *text == "*".to_string(){
+                calc.display.push_str(" * ");
+            }
+        }
+
+    }
+    None
 }
