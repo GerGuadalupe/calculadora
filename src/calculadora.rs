@@ -31,7 +31,7 @@ impl Calculadora {
             CalcResult::Ok(ans) => ans,
         };
 
-        self.display = format!("{}", self.ans);
+        self.ans();
     }
 
     fn to_operation(&mut self) {
@@ -100,7 +100,12 @@ impl CalcPriority {
 
 impl Calculadora {
     pub fn ans(&mut self){
-        self.display = self.ans.to_string();
+        if self.ans.to_string().len() >= 15{
+            self.display = format!("{:e}", self.ans)
+        }
+        else {
+            self.display = self.ans.to_string();
+        }
     }
 
     pub fn display(&self) -> &str{
