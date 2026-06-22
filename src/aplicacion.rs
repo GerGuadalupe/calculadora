@@ -47,7 +47,7 @@ impl eframe::App for Calculadora {
                             ui.available_size(),
                             egui::Label::new(
                                 egui::RichText::new(self.display())
-                                    .size(60.0/{(self.display().len() as f32 + 4.0).log(5.0)})
+                                    .size(60.0/{(self.display().len() as f32 + 4.0).log(10.0)})
                                     .color(egui::Color32::BLACK),
                             ),
                         )
