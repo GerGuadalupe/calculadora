@@ -1,7 +1,7 @@
 mod buttons;
 
 use super::calculadora::Calculadora;
-use eframe::egui::{self, Vec2};
+use eframe::{egui::{self, Vec2}, emath::Numeric};
 
 const RADIO_CORNERS: u8 = 40;
 const APLICATION_H: f32 = 800.0;
@@ -39,7 +39,7 @@ impl eframe::App for Calculadora {
                         egui::Frame::new()
                             .corner_radius(egui::CornerRadius::default().at_least(RADIO_CORNERS))
                             .fill(egui::Color32::from_rgb(25, 150, 75))
-                            .outer_margin(egui::Margin::same(25)),
+                            .outer_margin(egui::Margin::same(25))
                     )
                     .default_size(DISPLAY_SIZE)
                     .show_inside(ui, |ui| {
@@ -47,7 +47,7 @@ impl eframe::App for Calculadora {
                             ui.available_size(),
                             egui::Label::new(
                                 egui::RichText::new(&self.display)
-                                    .size(60.0)
+                                    .size(60.0/{(self.display.len() as f32 + 4.0).log(5.0)})
                                     .color(egui::Color32::BLACK),
                             ),
                         )
