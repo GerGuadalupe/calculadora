@@ -46,8 +46,8 @@ impl eframe::App for Calculadora {
                         ui.add_sized(
                             ui.available_size(),
                             egui::Label::new(
-                                egui::RichText::new(&self.display)
-                                    .size(60.0/{(self.display.len() as f32 + 4.0).log(5.0)})
+                                egui::RichText::new(self.display())
+                                    .size(60.0/{(self.display().len() as f32 + 4.0).log(5.0)})
                                     .color(egui::Color32::BLACK),
                             ),
                         )
@@ -73,35 +73,35 @@ fn input_teclado(i: &egui::InputState, calc: &mut Calculadora) -> Option<egui::K
             if !repeat && *pressed{
                 if modifiers.is_none(){
                     match key {
-                        egui::Key::Num0 => calc.display.push('0'),
-                        egui::Key::Num1 => calc.display.push('1'),
-                        egui::Key::Num2 => calc.display.push('2'),
-                        egui::Key::Num3 => calc.display.push('3'),
-                        egui::Key::Num4 => calc.display.push('4'),
-                        egui::Key::Num5 => calc.display.push('5'),
-                        egui::Key::Num6 => calc.display.push('6'),
-                        egui::Key::Num7 => calc.display.push('7'),
-                        egui::Key::Num8 => calc.display.push('8'),
-                        egui::Key::Num9 => calc.display.push('9'),
+                        egui::Key::Num0 => calc.push_in_display("0"),
+                        egui::Key::Num1 => calc.push_in_display("1"),
+                        egui::Key::Num2 => calc.push_in_display("2"),
+                        egui::Key::Num3 => calc.push_in_display("3"),
+                        egui::Key::Num4 => calc.push_in_display("4"),
+                        egui::Key::Num5 => calc.push_in_display("5"),
+                        egui::Key::Num6 => calc.push_in_display("6"),
+                        egui::Key::Num7 => calc.push_in_display("7"),
+                        egui::Key::Num8 => calc.push_in_display("8"),
+                        egui::Key::Num9 => calc.push_in_display("9"),
 
                         egui::Key::Enter => calc.calculate(),
-                        egui::Key::Backspace => {calc.display.pop();}
+                        egui::Key::Backspace => calc.delete(),
 
-                        egui::Key::Plus => calc.display.push_str(" + "),
-                        egui::Key::Minus => calc.display.push_str(" - "),
-                        egui::Key::Slash => calc.display.push_str(" / "),
+                        egui::Key::Plus => calc.push_in_display(" + "),
+                        egui::Key::Minus => calc.push_in_display(" - "),
+                        egui::Key::Slash => calc.push_in_display(" / "),
                         _ => {}
                     }
                 } 
                 else if modifiers.shift_only() && *key == egui::Key::Num6{
-                    calc.display.push_str(" ^ ");
+                    calc.push_in_display(" ^ ");
                 }
             }
         }
 
         else if let egui::Event::Text(text) = entrada{
             if *text == "*".to_string(){
-                calc.display.push_str(" * ");
+                calc.push_in_display(" * ");
             }
         }
 

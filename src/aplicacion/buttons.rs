@@ -95,12 +95,12 @@ fn add_button(
 
         match tipo_input {
             TipoInput::Del => {
-                calc.display.pop();
+                calc.delete();
             }
             TipoInput::Ecual => calc.calculate(),
-            TipoInput::NumberOrDot => calc.display.push_str(input),
-            TipoInput::Operator => calc.display.push_str(&format!(" {} ", input)),
-            TipoInput::Ans => calc.display = calc.ans().to_string(),
+            TipoInput::NumberOrDot => calc.push_in_display(input),
+            TipoInput::Operator => calc.push_in_display(&format!(" {} ", input)),
+            TipoInput::Ans => calc.ans(),
         };
     }
 }

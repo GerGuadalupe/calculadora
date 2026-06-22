@@ -10,7 +10,7 @@ pub enum InputOption {
 }
 
 pub struct Calculadora {
-    pub display: String,
+    display: String,
     ans: f64,
     operation: Vec<InputOption>,
 }
@@ -99,7 +99,30 @@ impl CalcPriority {
 }
 
 impl Calculadora {
-    pub fn ans(&self) -> f64 {
-        self.ans
+    pub fn ans(&mut self){
+        self.display = self.ans.to_string();
+    }
+
+    pub fn display(&self) -> &str{
+        &self.display
+    }
+
+    pub fn push_in_display(&mut self, string: &str){
+        self.display.push_str(string);
+    }
+
+    pub fn delete(&mut self){
+        match self.display.as_str() {
+            "Math Error" => self.display.clear(),
+            "Syntax Error" => self.display.clear(),
+
+            _ => {
+                if let Some(ch) = self.display.pop() {
+                    if ch == ' ' {
+                        self.display.pop();
+                    }
+                }
+            }
+        }
     }
 }
