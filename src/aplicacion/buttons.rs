@@ -59,7 +59,6 @@ fn add_button(
 ) {
     let mut size = size.clone();
 
-    // esta cosa se resume en "si el botón es pulsado"
     if ui
         .add_sized(
             //definiendo el tamaño
@@ -71,7 +70,6 @@ fn add_button(
                 size
             },
             egui::Button::new(
-                //definiendo propiedades del botón
                 egui::RichText::new(input).size(40.0).color(
                     if tipo_input == TipoInput::Ecual || tipo_input == TipoInput::Del {
                         egui::Color32::BLACK
@@ -91,7 +89,6 @@ fn add_button(
         )
         .clicked()
     {
-        //aqui finalmente inicia lo que ocurre si se aprienta el botón
 
         match tipo_input {
             TipoInput::Del => {
