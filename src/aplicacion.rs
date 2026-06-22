@@ -83,6 +83,7 @@ fn input_teclado(i: &egui::InputState, calc: &mut Calculadora) -> Option<egui::K
                         egui::Key::Num7 => calc.push_in_display("7"),
                         egui::Key::Num8 => calc.push_in_display("8"),
                         egui::Key::Num9 => calc.push_in_display("9"),
+                        egui::Key::Period => calc.push_in_display("."),
 
                         egui::Key::Enter => calc.calculate(),
                         egui::Key::Backspace => calc.delete(),
