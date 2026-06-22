@@ -125,6 +125,7 @@ impl Calculadora {
                 if let Some(ch) = self.display.pop() {
                     if ch == ' ' {
                         self.display.pop();
+                        self.display.pop();
                     }
                 }
             }
