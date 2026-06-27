@@ -61,7 +61,6 @@ fn add_button(
 
     if ui
         .add_sized(
-            //definiendo el tamaño
             if tipo_input == TipoInput::Ecual {
                 size.x *= 2.0;
                 size.x += 6.0;

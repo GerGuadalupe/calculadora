@@ -60,7 +60,7 @@ impl CalcTree {
                             return CalcResult::Ok(0.0) - hijo_1.operacion();
                         };
 
-                        hijo_0.operacion() + hijo_1.operacion()
+                        hijo_0.operacion() - hijo_1.operacion()
                     }
 
                     "*" => {
